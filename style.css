@@ -118,12 +118,12 @@ li{
 
 .time-wea-ul{
 	padding-left: 10px;
-	width: 720px;
+	width: 1600px;
 }
 .time-wea li{
 	display: inline-block;
 	text-align: center;
-	margin-right: 30px;
+	margin-right: 28px;
 	margin-top: 8px;
 }
 .time-wea{
@@ -188,6 +188,12 @@ img{
 .wea-detail-ul li ul li:first-child{
 	text-align: right;
 }
+
+.wea-detail-ul li ul li:last-child{
+	position:relative;
+	left: 10px;
+}
+
 .wea-detail-ul>li:nth-child(1){
 	padding-top: 10px;
 }
@@ -250,7 +256,14 @@ footer{
 	position:absolute;
 	right: 9px;
 }
-
+.cfButt{
+  font-size: 18px;
+  position:absolute;
+  left: 15px;
+}
+.trans{
+  opacity:0.4;
+}
 
 
 
