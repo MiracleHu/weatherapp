@@ -21,7 +21,7 @@ li{
 	margin: 0 auto;
 	background: #555;
 	width: 375px;
-	/*height: 667px;*/
+	height: 667px;
 	overflow:scroll;
 	color: white;
 	font-family: HelveticaNeue-Light,Arial;
@@ -29,6 +29,7 @@ li{
 }
 .page1{
 	height:667px;
+	position:relative;
 }
 .cityList{
 	height: 84px;
@@ -62,6 +63,16 @@ li{
 	position: absolute;
 	right: 16px;
 
+}
+#addCity{
+	color:#ccc;
+	background: none;
+	border:none;
+	outline: none;
+	font-size: 40px;
+	position: absolute;
+	bottom: 0;
+	right:20px;
 }
 .page2{
 	background: linear-gradient(#718291, #617588);
@@ -264,9 +275,36 @@ footer{
 .trans{
   opacity:0.4;
 }
-
-
-
+.locContainer h6{
+	text-align: center;
+	color:#ccc;
+	margin: 5px 0 5px 0;
+	font-size: 14px;
+}
+input{
+	background: #2A2727;
+	width: 73%;
+	height: 30px;
+	margin-left: 10px;
+	margin-top: 5px;
+	padding-left: 10px;
+	color:#ccc;
+	border-radius: 4px;
+}
+#cancel{
+	background: #2A2727;
+	color:#ccc;
+	height: 30px;
+	position: relative;
+	left: 5px;
+	padding:0 8px 0 8px;
+	border-radius: 4px;
+}
+.locContainer p{
+	color:#ccc;
+	margin:15px 0 5px 15px;
+	cursor: pointer;
+}
 
 
 

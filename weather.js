@@ -2,30 +2,31 @@ $(document).ready(function loadPage(){
 
 	var apiUrl1="https://api.forecast.io/forecast/542acae280c8065152a9c33f13878a07/37.3544,-121.969";
 	var apiUrl2="https://api.forecast.io/forecast/542acae280c8065152a9c33f13878a07/39.9167,116.383";
+	var locationUrl="http://coen268.peterbergstrom.com/locationautocomplete.php";
+	// loadData();
+	// cfToggle();
 
-	loadData();
-	cfToggle();
 	// setInterval(loadData,50000);
 	function loadData(){
 		console.log("loadData santaclara");
 		$.ajax({ 
-				jsonp: 'callback', 	
-				url: apiUrl1,
-				dataType: "jsonp",
-				success: function(weajson1) {
-					weatherInit(weajson1,2);
-				},
-				error: function(jqXHR){     
-					alert("Error Happend");  
-				}
+			jsonp: 'callback', 	
+			url: apiUrl1,
+			dataType: "jsonp",
+			success: function(weajson1) {
+				weatherInit(weajson1,2);
+			},
+			error: function(jqXHR){     
+				alert("Error Happend");  
+			}
 		});
 
 		console.log("loadData beijing");
 		$.ajax({ 
-				jsonp: 'callback', 	
-				url: apiUrl2,
-				dataType: "jsonp",
-				success: function(weajson2) {
+			jsonp: 'callback', 	
+			url: apiUrl2,
+			dataType: "jsonp",
+			success: function(weajson2) {
 					// debugger;
 					var debugtime = weajson2;
 					weatherInit(debugtime,3);
@@ -33,7 +34,7 @@ $(document).ready(function loadPage(){
 				error: function(jqXHR){     
 					alert("Error Happend");  
 				}
-		});
+			});
 	}
 
 	function weatherInit(weajson,pageNum){
@@ -71,11 +72,11 @@ $(document).ready(function loadPage(){
 			$timeWeaUl.empty();
 			var hourlyData=weajson.hourly.data;
 			for (var i = 0; i < 26; i++) {
-			var hour = hourAMPM(hourlyData[i].time);
-			var iconUrl = hourlyData[i].icon;
-			var temperature = Math.floor(hourlyData[i].temperature);
-			var $timeWeaItem = $("<li><p>"+hour+"</p><p><img src='icons/"+iconUrl+".png'></p><p>"+temperature+"˚</p></li>");
-			$timeWeaUl.append($timeWeaItem)
+				var hour = hourAMPM(hourlyData[i].time);
+				var iconUrl = hourlyData[i].icon;
+				var temperature = Math.floor(hourlyData[i].temperature);
+				var $timeWeaItem = $("<li><p>"+hour+"</p><p><img src='icons/"+iconUrl+".png'></p><p>"+temperature+"˚</p></li>");
+				$timeWeaUl.append($timeWeaItem)
 			};	
 		};
 		function windDir(bering){
@@ -140,19 +141,75 @@ $(document).ready(function loadPage(){
 			$('.degF').toggleClass('trans');
 			var setF = $('.degC').toggleClass('trans').hasClass('trans');
 			if(setF){
-			  console.log('change to F temp');
-			  apiUrl1="https://api.forecast.io/forecast/542acae280c8065152a9c33f13878a07/37.3544,-121.969";
-			  apiUrl2="https://api.forecast.io/forecast/542acae280c8065152a9c33f13878a07/39.9167,116.383";
-			  loadData();
+				console.log('change to F temp');
+				apiUrl1="https://api.forecast.io/forecast/542acae280c8065152a9c33f13878a07/37.3544,-121.969";
+				apiUrl2="https://api.forecast.io/forecast/542acae280c8065152a9c33f13878a07/39.9167,116.383";
+				loadData();
 			}else{
-			  console.log('change to C temp');
-			  apiUrl1="https://api.forecast.io/forecast/542acae280c8065152a9c33f13878a07/37.3544,-121.969?units=si";
-			  apiUrl2="https://api.forecast.io/forecast/542acae280c8065152a9c33f13878a07/39.9167,116.383?units=si";
-			  loadData();
-			  }
-  });
+				console.log('change to C temp');
+				apiUrl1="https://api.forecast.io/forecast/542acae280c8065152a9c33f13878a07/37.3544,-121.969?units=si";
+				apiUrl2="https://api.forecast.io/forecast/542acae280c8065152a9c33f13878a07/39.9167,116.383?units=si";
+				loadData();
+			}
+		});
 
+	}
+
+	function addCityToCityList(){
+		var $citylistItem=$([
+			'<a href="">',
+				'<ul>',
+					'<li class="cityList">',
+						'<div class="left-side">',
+							'<p class="time">--</p>',
+							'<p class="location">','$(this).data("displayName")','</p>',
+						'</div>',
+						'<div class="temp">--</div>',
+					'</li>',
+				'</ul>',
+			'</a>'].join(''));
+		$('.page1').append($citylistItem);
+		alert("add success");
+	}
+	function showCityLists(locationObj){
+		$.each(locationObj,function(key,value){
+			// console.log(value.displayName);
+			var $pList=$("<p>"+value.formatted_address+"</p>");
+			$pList.data("displayName",value.displayName);
+			$pList.data("lat",value.lat);
+			$pList.data("lng",value.lng);
+			// $(".findCityList").append("<p data-lat="+value.lat+" data-lng="+value.lng+" data-displayName= "+value.displayName+">"+value.formatted_address+"</p>");
+			$(".findCityList").append($pList);
+		});
+
+		$(".findCityList p").click(function(){
+				alert("The city you choose is: "+$(this).data("displayName")+" The lat is : "+$(this).data("lat"));
+				addCityToCityList();
+			});
+	}
+
+	function getCityListData(inputValue){
+		// console.log("requestLocation");
+		$.ajax({ 
+			jsonp: 'callback', 	
+			url: locationUrl+"?query="+inputValue,
+			dataType: "jsonp",
+			success: function(locationJson) {
+				// console.log(locationJson[0].formatted_address);
+				showCityLists(locationJson);
+			},
+			error: function(jqXHR){     
+				alert("Error Happend");  
+			}
+		});
 	}	
+
+	$("input").keyup(function(){
+		$(".findCityList").empty();
+		// console.log($(this).val());
+		getCityListData($(this).val());
+	});
+	
 
 });
 
