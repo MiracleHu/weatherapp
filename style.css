@@ -6,6 +6,9 @@
 	font: inherit;
 	vertical-align: baseline;
 }
+.hide{
+	display:none;
+}
 a{
 	color:white;
 	text-decoration: none;
@@ -242,39 +245,42 @@ footer{
 	text-align: center;
 	border-top: 1px solid #b6c0c9;
 }
+
 .daytimeFooter{
 	background:#617588;
-}
-.daytimeFooter .dot-right{
-	opacity: 0.5;
 }
 .nightFooter{
 	background:#232931;
 }
-.nightFooter .dot-left{
-	opacity: 0.5;
-}
+
 .navg li{
 	display:inline;
 }
 .left-page,.right-page{
 	font-size: 12px;
+	padding:0 4px 0 4px;
+	cursor:pointer;
 }
 .dot-right,.dot-left{
 	font-size: 14px;
+	padding:0 4px 0 4px;
+	cursor:pointer;
 }
-.main-page{
+.mainPage{
 	position:absolute;
 	right: 9px;
+	cursor:pointer;
 }
 .cfButt{
   font-size: 18px;
   position:absolute;
   left: 15px;
+  cursor:pointer;
 }
 .trans{
   opacity:0.4;
 }
+/*search parts are below*/
 .locContainer h6{
 	text-align: center;
 	color:#ccc;
