@@ -1,37 +1,25 @@
 $(document).ready(function(){
 	
 	// creatPages(37.3544,-121.969,"Beijing",3);
-	function fullHour(eporchtime){
-		var date = new Date(eporchtime*1000);
-		var hours = date.getHours();
-		return hours;
-	}
-	function formatAMPM(eporchtime) {
-		var date = new Date(eporchtime*1000);
+	function formatTime(eporchtime,offset){
+		var local = new Date();
+		var offsetminutes = local.getTimezoneOffset();
+		var date = new Date(eporchtime*1000+offsetminutes*60*1000+offset*60*60*1000);
 		var hours = date.getHours();
 		var minutes = date.getMinutes();
 		var ampm = hours >= 12 ? 'PM' : 'AM';
 		hours = hours % 12;
 	  hours = hours ? hours : 12; // the hour '0' should be '12'
 	  minutes = minutes < 10 ? '0'+minutes : minutes;
-	  var strTime = hours + ':' + minutes + ' ' + ampm;
-	  return strTime;
-	}
-	function hourAMPM(eporchtime) {
-		var date = new Date(eporchtime*1000);
-		var hours = date.getHours();
-		var minutes = date.getMinutes();
-		var ampm = hours >= 12 ? 'PM' : 'AM';
-		hours = hours % 12;
-	  hours = hours ? hours : 12; // the hour '0' should be '12'
-	  minutes = minutes < 10 ? '0'+minutes : minutes;
-	  var strTime = hours +' ' + ampm;
-	  return strTime;
-	}
-	function weekday(eporchtime) {
-		var date = new Date(eporchtime*1000);
-		var weekdays=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-		return weekdays[date.getDay()];
+	  var hourminutesAMPM = hours + ':' + minutes + ' ' + ampm;
+	  var hourAMPM = hours +' ' + ampm;
+	  var weekdays=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+		return{
+			fullHour:date.getHours(),
+			formatAMPM:hourminutesAMPM,
+			hourAMPM:hourAMPM,
+			weekday:weekdays[date.getDay()]
+		};
 	}
 	function windDir(bering){
 		var directon = ["NE", "E", "SE", "S", "SW", "W", "NW", "N"];
@@ -60,7 +48,7 @@ $(document).ready(function(){
 
 	function appendPage(weadata,pagenum,name){
 		var $page = $("<div class='page"+pagenum+" pages hide dayTime'></div>");
-		fullHour(weadata.currently.time)>19 ? $page.addClass("nightTime"):$page.removeClass("nightTime");
+		formatTime(weadata.currently.time,weadata.offset).fullHour>19 ? $page.addClass("nightTime"):$page.removeClass("nightTime");
 		var $mainInfo=$([
 					'<div class="mainInfo">',
 						'<p class="m-city">',name,'</p>',
@@ -68,7 +56,7 @@ $(document).ready(function(){
 						'<p class="m-temp">',Math.floor(weadata.currently.temperature),'˚</p>',
 						'<table class="twoWea">',
 							'<tr>',
-								'<td class="today" style="width:25%">',weekday(weadata.daily.data[0].time),'</td>',
+								'<td class="today" style="width:25%">',formatTime(weadata.daily.data[0].time,weadata.offset).weekday,'</td>',
 								'<td class="y-day" style="width:25%">Today</td>',
 								'<td class="t-temp" style="width:25%">',Math.floor(weadata.daily.data[0].temperatureMax),'˚</td>',
 								'<td class="y-temp" style="width:25%">',Math.floor(weadata.daily.data[0].temperatureMin),'˚</td>',
@@ -84,7 +72,7 @@ $(document).ready(function(){
 		for (var i = 0; i < 26; i++) {
 					var $hourlyList=$([
 								'<li>', 
-									'<p>',hourAMPM(weadata.hourly.data[i].time),'</p>',
+									'<p>',formatTime(weadata.hourly.data[i].time,weadata.offset).hourAMPM,'</p>',
 									'<p><img src="icons/',weadata.hourly.data[i].icon,'.png"></p>',
 									'<p>',Math.floor(weadata.hourly.data[i].temperature),'˚</p>',
 								'</li>'
@@ -98,7 +86,7 @@ $(document).ready(function(){
 		var $dailyForecast=$("<section class='forecast'></section>");
 		var $dailyForecastList=$("<ul class='forecast-list'></ul>");
 		$.each(weadata.daily.data,function(key,value){
-					var day = weekday(value.time);
+					var day = formatTime(value.time,weadata.offset).weekday;
 					var dayIcon = value.icon;
 					var tempMax = Math.floor(value.temperatureMax);
 					var tempMin = Math.floor(value.temperatureMin);
@@ -116,13 +104,13 @@ $(document).ready(function(){
 								'<li>',
 									'<ul>',
 										'<li>Sunrise:</li>',
-										'<li>',formatAMPM(weadata.daily.data[0].sunriseTime),'</li>',
+										'<li>',formatTime(weadata.daily.data[0].sunriseTime,weadata.offset).formatAMPM,'</li>',
 								  '</ul>', 
 							 '</li>',
 							 '<li>', 
 									'<ul>',
 										'<li>Sunset:</li>',
-										'<li>',formatAMPM(weadata.daily.data[0].sunsetTime),'</li>',
+										'<li>',formatTime(weadata.daily.data[0].sunsetTime,weadata.offset).formatAMPM,'</li>',
 								  '</ul>', 
 							 '</li>',
 							 '<li>', 
@@ -197,7 +185,7 @@ $(document).ready(function(){
 				'<ul>',
 					'<li class="cityList dayTime">',
 						'<div class="left-side">',
-							'<p class="time">',formatAMPM(weadata.currently.time),'</p>',
+							'<p class="time">',formatTime(weadata.currently.time,weadata.offset).formatAMPM,'</p>',
 							'<p class="location">',name,'</p>',
 						'</div>',
 						'<div class="temp">',Math.floor(weadata.currently.temperature),'˚</div>',
