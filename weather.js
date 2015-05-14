@@ -1,5 +1,5 @@
 $(document).ready(function(){
-	init();
+	init();//test
 	var storeArray;
 	function init(){
 		if(sessionStorage.initArray!== undefined){
