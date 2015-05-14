@@ -188,12 +188,12 @@ img{
 	padding-left: 10px;
 }
 .wea-detail{
-	height: 287px;
+	height: 328px;
 	border-bottom: 1px solid #b6c0c9;
 	overflow-y:scroll;
 }
 .wea-detail-ul{
-	height: 340px;
+	height: 300px;
 }
 .wea-detail-ul li ul li{
 	display: inline-block;
@@ -215,25 +215,25 @@ img{
 	padding-top: 5px;
 }
 .wea-detail-ul>li:nth-child(3){
-	padding-top: 22px;
+	padding-top: 20px;
 }
 .wea-detail-ul>li:nth-child(4){
 	padding-top: 5px;
 }
 .wea-detail-ul>li:nth-child(5){
-	padding-top: 22px;
+	padding-top: 20px;
 }
 .wea-detail-ul>li:nth-child(6){
 	padding-top: 5px;
 }
 .wea-detail-ul>li:nth-child(7){
-	padding-top: 22px;
+	padding-top: 20px;
 }
 .wea-detail-ul>li:nth-child(8){
 	padding-top: 5px;
 }
 .wea-detail-ul>li:nth-child(9){
-	padding-top: 22px;
+	padding-top: 20px;
 }
 
 footer{
@@ -241,7 +241,7 @@ footer{
 	height: 42px;
 	line-height: 42px;
 	width:375px;
-	bottom: 0;
+	top: 624px;
 	text-align: center;
 	border-top: 1px solid #b6c0c9;
 }
