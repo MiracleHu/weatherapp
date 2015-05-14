@@ -1,6 +1,17 @@
 $(document).ready(function(){
-	
-	// creatPages(37.3544,-121.969,"Beijing",3);
+	// init();
+	// var initArray=JSON.parse(sessionStorage.initArray);
+	// console.log(initArray);
+	// var storeArray=[];
+	// function init(){
+	// 	if (initArray!=undefined) {
+	// 		for (var i=0;i<initArray.length;i++){
+	// 		appendPage(initArray[i].weajson,initArray[i].pagenum,initArray[i].name);
+	// 		addCityToCityList(initArray[i].weajson,initArray[i].pagenum,initArray[i].name);
+	// 		}
+	// 	}	
+	// }
+	var storeArray=[];
 	function formatTime(eporchtime,offset){
 		var local = new Date();
 		var offsetminutes = local.getTimezoneOffset();
@@ -39,6 +50,14 @@ $(document).ready(function(){
 				success: function(weajson) {
 					appendPage(weajson,pagenum,name);
 					addCityToCityList(weajson,pagenum,name);
+					if(typeof(Storage) !== "undefined") {
+						storeArray.push({
+						weajson:weajson,
+						pagenum:pagenum,
+						name:name
+						});
+						sessionStorage.initArray=JSON.stringify(storeArray);
+					}
 				},
 				error: function(jqXHR){     
 					alert("Error Happend");  
@@ -86,78 +105,78 @@ $(document).ready(function(){
 		var $dailyForecast=$("<section class='forecast'></section>");
 		var $dailyForecastList=$("<ul class='forecast-list'></ul>");
 		$.each(weadata.daily.data,function(key,value){
-					var day = formatTime(value.time,weadata.offset).weekday;
-					var dayIcon = value.icon;
-					var tempMax = Math.floor(value.temperatureMax);
-					var tempMin = Math.floor(value.temperatureMin);
-					var $dayItem = $("<li><ul><li>"+day+"</li><li><img src='icons/"+dayIcon+".png'/></li><li>"+tempMax+"˚</li><li>"+tempMin+"˚</li></ul></li>");
-					$dailyForecastList.append($dayItem);
-				});
+			var day = formatTime(value.time,weadata.offset).weekday;
+			var dayIcon = value.icon;
+			var tempMax = Math.floor(value.temperatureMax);
+			var tempMin = Math.floor(value.temperatureMin);
+			var $dayItem = $("<li><ul><li>"+day+"</li><li><img src='icons/"+dayIcon+".png'/></li><li>"+tempMax+"˚</li><li>"+tempMin+"˚</li></ul></li>");
+			$dailyForecastList.append($dayItem);
+		});
 
 		$dailyForecast.append($dailyForecastList);
 		$page.append($dailyForecast);
 
 		var $todaySumm=$("<div class='wea-broadcast'><p>"+weadata.daily.summary+"</p></div>");
 		var $weaDetailUl=$([
-						'<div class="wea-detail">',
-							'<ul class="wea-detail-ul">',
-								'<li>',
-									'<ul>',
-										'<li>Sunrise:</li>',
-										'<li>',formatTime(weadata.daily.data[0].sunriseTime,weadata.offset).formatAMPM,'</li>',
-								  '</ul>', 
-							 '</li>',
-							 '<li>', 
-									'<ul>',
-										'<li>Sunset:</li>',
-										'<li>',formatTime(weadata.daily.data[0].sunsetTime,weadata.offset).formatAMPM,'</li>',
-								  '</ul>', 
-							 '</li>',
-							 '<li>', 
-									'<ul>',
-										'<li>Chance of Rain:</li>',
-										'<li>',weadata.daily.data[0].precipProbability*100,'%</li>',
-								  '</ul>', 
-							 '</li>',
-							 '<li>', 
-									'<ul>',
-										'<li>Humidity:</li>',
-										'<li>',weadata.daily.data[0].humidity*100,'%</li>',
-								  '</ul>', 
-							 '</li>',
-							 '<li>', 
-									'<ul>',
-										'<li>Wind:</li>',
-										'<li>',weadata.daily.data[0].windSpeed,' mph ',windDir(weadata.daily.data[0].windBearing),'</li>',
-								  '</ul>', 
-							 '</li>',
-							 '<li>', 
-									'<ul>',
-										'<li>Feels like:</li>',
-										'<li>',Math.floor(weadata.currently.apparentTemperature),'˚</li>',
-								  '</ul>', 
-							 '</li>',
-							 '<li>', 
-									'<ul>',
-										'<li>Precipitation:</li>',
-										'<li>',weadata.daily.data[0].precipIntensity,' in</li>',
-								  '</ul>', 
-							 '</li>',
-							 '<li>', 
-									'<ul>',
-										'<li>Pressure:</li>',
-										'<li>',Math.floor(weadata.daily.data[0].pressure*0.02952756),' in</li>',
-								  '</ul>', 
-							 '</li>',
-							'<li>', 
-									'<ul>',
-										'<li>Visibility:</li>',
-										'<li>',(weadata.daily.data[0].visibility||"--"),' mi</li>',
-								  '</ul>', 
-							 '</li>',
-							'</ul>',
-						'</div>'
-					].join(''));
+					'<div class="wea-detail">',
+						'<ul class="wea-detail-ul">',
+							'<li>',
+								'<ul>',
+									'<li>Sunrise:</li>',
+									'<li>',formatTime(weadata.daily.data[0].sunriseTime,weadata.offset).formatAMPM,'</li>',
+							  '</ul>', 
+						 '</li>',
+						 '<li>', 
+								'<ul>',
+									'<li>Sunset:</li>',
+									'<li>',formatTime(weadata.daily.data[0].sunsetTime,weadata.offset).formatAMPM,'</li>',
+							  '</ul>', 
+						 '</li>',
+						 '<li>', 
+								'<ul>',
+									'<li>Chance of Rain:</li>',
+									'<li>',weadata.daily.data[0].precipProbability*100,'%</li>',
+							  '</ul>', 
+						 '</li>',
+						 '<li>', 
+								'<ul>',
+									'<li>Humidity:</li>',
+									'<li>',weadata.daily.data[0].humidity*100,'%</li>',
+							  '</ul>', 
+						 '</li>',
+						 '<li>', 
+								'<ul>',
+									'<li>Wind:</li>',
+									'<li>',weadata.daily.data[0].windSpeed,' mph ',windDir(weadata.daily.data[0].windBearing),'</li>',
+							  '</ul>', 
+						 '</li>',
+						 '<li>', 
+								'<ul>',
+									'<li>Feels like:</li>',
+									'<li>',Math.floor(weadata.currently.apparentTemperature),'˚</li>',
+							  '</ul>', 
+						 '</li>',
+						 '<li>', 
+								'<ul>',
+									'<li>Precipitation:</li>',
+									'<li>',weadata.daily.data[0].precipIntensity,' in</li>',
+							  '</ul>', 
+						 '</li>',
+						 '<li>', 
+								'<ul>',
+									'<li>Pressure:</li>',
+									'<li>',Math.floor(weadata.daily.data[0].pressure*0.02952756),' in</li>',
+							  '</ul>', 
+						 '</li>',
+						'<li>', 
+								'<ul>',
+									'<li>Visibility:</li>',
+									'<li>',(weadata.daily.data[0].visibility||"--"),' mi</li>',
+							  '</ul>', 
+						 '</li>',
+						'</ul>',
+					'</div>'
+				].join(''));
 		
 		var $footer=$([
 					'<footer class="daytimeFooter">',
@@ -207,13 +226,6 @@ $(document).ready(function(){
 			// $(".findCityList").append("<p data-lat="+value.lat+" data-lng="+value.lng+" data-displayName= "+value.displayName+">"+value.formatted_address+"</p>");
 			$(".findCityList").append($pList);
 		});
-
-		$(".findCityList p").click(function(){
-				// alert("The city you choose is: "+$(this).data("displayName")+" The lat is : "+$(this).data("lat"));
-				creatPages($(this).data("lat"),$(this).data("lng"),$(this).data("displayName"),$(this).data("id"));
-				$('.page1').show();
-				$('.locContainer').hide();
-			});
 	}
 	function getCityListData(inputValue){
 		// console.log("requestLocation");
@@ -223,7 +235,6 @@ $(document).ready(function(){
 			url: locationUrl+"?query="+inputValue,
 			dataType: "jsonp",
 			success: function(locationJson) {
-				// console.log(locationJson[0].formatted_address);
 				showCityLists(locationJson);
 			},
 			error: function(jqXHR){     
@@ -237,7 +248,14 @@ $(document).ready(function(){
 		// console.log($(this).val());
 		getCityListData($(this).val());
 	});
-	 
+	// creatPages here
+	$(".findCityList").on('click','p',function(){
+		creatPages($(this).data("lat"),$(this).data("lng"),$(this).data("displayName"),$(this).data("id"));
+		$('.page1').show();
+		$('.locContainer').hide();
+		$(".findCityList").empty();
+	});
+
 	$('#addCity').click(function(){
 		$('.page1').hide();
 		$('.locContainer').show();

@@ -281,6 +281,9 @@ footer{
   opacity:0.4;
 }
 /*search parts are below*/
+#addCity{
+	cursor:pointer;
+}
 .locContainer h6{
 	text-align: center;
 	color:#ccc;
@@ -305,6 +308,7 @@ input{
 	left: 5px;
 	padding:0 8px 0 8px;
 	border-radius: 4px;
+	cursor:pointer;
 }
 .locContainer p{
 	color:#ccc;
