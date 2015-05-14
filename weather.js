@@ -1,5 +1,5 @@
 $(document).ready(function(){
-	init();//test
+	init();
 	var storeArray;
 	function init(){
 		if(sessionStorage.initArray!== undefined){
@@ -8,6 +8,8 @@ $(document).ready(function(){
 				appendPage(storeArray[i].weajson,storeArray[i].pagenum,storeArray[i].name);
 				addCityToCityList(storeArray[i].weajson,storeArray[i].pagenum,storeArray[i].name);
 			}
+		}else{
+			storeArray = [];
 		}
 	}
 	function formatTime(eporchtime,offset){
@@ -241,7 +243,7 @@ $(document).ready(function(){
 		});
 	}	
 
-	$("input").keyup(function(){
+	$("input").keypress(function(){
 		$(".findCityList").empty();
 		// console.log($(this).val());
 		getCityListData($(this).val());
