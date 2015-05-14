@@ -200,16 +200,14 @@ $(document).ready(function(){
 	function addCityToCityList(weadata,pagenum,name){
 		
 		var $citylistItem=$([
-			'<a href="#" data-id=',pagenum,' class="list',pagenum,'">',
-				'<ul>',
-					'<li class="cityList dayTime">',
+			'<a href="#" data-offset=',weadata.offset,' data-id=',pagenum,' class="list',pagenum,'">',
+					'<div class="cityList dayTime">',
 						'<div class="left-side">',
 							'<p class="time">',formatTime(weadata.currently.time,weadata.offset).formatAMPM,'</p>',
 							'<p class="location">',name,'</p>',
 						'</div>',
 						'<div class="temp">',Math.floor(weadata.currently.temperature),'˚</div>',
-					'</li>',
-				'</ul>',
+					'</div>',
 			'</a>'].join(''));
 		// $citylistItem.data("id",pagenum);
 		$('.page1').append($citylistItem);
@@ -245,8 +243,8 @@ $(document).ready(function(){
 
 	$("input").keypress(function(){
 		$(".findCityList").empty();
-		// console.log($(this).val());
 		getCityListData($(this).val());
+
 	});
 	// creatPages here
 	$(".findCityList").on('click','p',function(){
@@ -276,6 +274,13 @@ $(document).ready(function(){
 			$('.page1').show();
 		});
 	});
+
+	
+	setInterval(function(){
+		$('.page1').children('a').each(function () {
+    $(this).find('.time').html(formatTime(Date.now()/1000,$(this).data('offset')).formatAMPM)
+		});
+	},1000);
 
 });
 
