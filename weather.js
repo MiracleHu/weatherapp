@@ -1,17 +1,15 @@
 $(document).ready(function(){
-	// init();
-	// var initArray=JSON.parse(sessionStorage.initArray);
-	// console.log(initArray);
-	// var storeArray=[];
-	// function init(){
-	// 	if (initArray!=undefined) {
-	// 		for (var i=0;i<initArray.length;i++){
-	// 		appendPage(initArray[i].weajson,initArray[i].pagenum,initArray[i].name);
-	// 		addCityToCityList(initArray[i].weajson,initArray[i].pagenum,initArray[i].name);
-	// 		}
-	// 	}	
-	// }
-	var storeArray=[];
+	init();
+	var storeArray;
+	function init(){
+		if(sessionStorage.initArray!== undefined){
+			storeArray=JSON.parse(sessionStorage.initArray);
+			for (var i=0;i<storeArray.length;i++){
+				appendPage(storeArray[i].weajson,storeArray[i].pagenum,storeArray[i].name);
+				addCityToCityList(storeArray[i].weajson,storeArray[i].pagenum,storeArray[i].name);
+			}
+		}
+	}
 	function formatTime(eporchtime,offset){
 		var local = new Date();
 		var offsetminutes = local.getTimezoneOffset();
