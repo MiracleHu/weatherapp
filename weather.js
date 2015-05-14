@@ -246,7 +246,9 @@ $(document).ready(function(){
 	$("input").keypress(function(){
 		$(".findCityList").empty();
 		// console.log($(this).val());
-		getCityListData($(this).val());
+		// if(this.value.length > 1){
+			getCityListData($(this).val());
+		// }
 	});
 	// creatPages here
 	$(".findCityList").on('click','p',function(){
