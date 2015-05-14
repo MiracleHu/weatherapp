@@ -181,7 +181,7 @@ $(document).ready(function(){
 		var $footer=$([
 					'<footer class="daytimeFooter">',
 						'<ul class="navg">',
-							'<li class="cfButt"><span class="degC trans">&nbsp ˚C</span>/<span class="degF">˚F</span></li>',
+							// '<li class="cfButt"><span class="degC trans">&nbsp ˚C</span>/<span class="degF">˚F</span></li>',
 							'<li class="left-page">◀</li>',
 							'<li class="dot-left">●</li>',
 							'<li class="dot-right">●</li>',
@@ -266,7 +266,7 @@ $(document).ready(function(){
 
 	$('.page1').on('click',"a",function(){
 		var redirectId='.page'+$(this).data('id');
-		console.log(redirectId);
+		// console.log(redirectId);
 		$('.pages').hide();
 		$(redirectId).show();
 		$(redirectId).on('click','.mainPage',function(){
