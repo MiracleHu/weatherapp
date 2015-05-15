@@ -248,7 +248,23 @@ $(document).ready(function(){
 	});
 	// creatPages here
 	$(".findCityList").on('click','p',function(){
-		creatPages($(this).data("lat"),$(this).data("lng"),$(this).data("displayName"),$(this).data("id"));
+		var samecity=false;
+		if (storeArray.length===0) {
+			console.log('empty storeArray');
+			creatPages($(this).data("lat"),$(this).data("lng"),$(this).data("displayName"),$(this).data("id"));
+		}else{
+			for (var i = 0; i < storeArray.length; i++) {
+				if (storeArray[i].pagenum===$(this).data("id")) {
+					console.log('The same city');
+					samecity=true;
+				}
+			}
+		}
+		if (!samecity) {
+			creatPages($(this).data("lat"),$(this).data("lng"),$(this).data("displayName"),$(this).data("id"));
+			samecity=false;
+		}
+		
 		$('.page1').show();
 		$('.locContainer').hide();
 		$(".findCityList").empty();
