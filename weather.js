@@ -248,10 +248,10 @@ $(document).ready(function(){
 	});
 	// creatPages here
 	$(".findCityList").on('click','p',function(){
+		// judge the same city begin
 		var samecity=false;
 		if (storeArray.length===0) {
 			console.log('empty storeArray');
-			creatPages($(this).data("lat"),$(this).data("lng"),$(this).data("displayName"),$(this).data("id"));
 		}else{
 			for (var i = 0; i < storeArray.length; i++) {
 				if (storeArray[i].pagenum===$(this).data("id")) {
@@ -260,6 +260,7 @@ $(document).ready(function(){
 				}
 			}
 		}
+		// judge the same city end
 		if (!samecity) {
 			creatPages($(this).data("lat"),$(this).data("lng"),$(this).data("displayName"),$(this).data("id"));
 			samecity=false;
