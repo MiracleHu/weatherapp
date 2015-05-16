@@ -39,7 +39,9 @@ $(document).ready(function(){
 		index = parseInt(index / 45);
 		return(directon[index]);
 	}
-
+	function formatCelsius(ftemp){
+		return Math.round((ftemp-32)/1.8);
+	}
 	function creatPages(lat,log,name,pagenum){
 		var baseUrl="https://api.forecast.io/forecast/542acae280c8065152a9c33f13878a07/";
 		var requestUrl=baseUrl+lat+','+log;
@@ -50,6 +52,7 @@ $(document).ready(function(){
 				success: function(weajson) {
 					appendPage(weajson,pagenum,name);
 					addCityToCityList(weajson,pagenum,name);
+					toggleCF();
 					if(typeof(Storage) !== "undefined") {
 						storeArray.push({
 						weajson:weajson,
@@ -72,13 +75,16 @@ $(document).ready(function(){
 					'<div class="mainInfo">',
 						'<p class="m-city">',name,'</p>',
 						'<p class="m-wea">',weadata.currently.summary,'</p>',
-						'<p class="m-temp">',Math.floor(weadata.currently.temperature),'˚</p>',
+						'<p class="m-temp f-temp">',Math.floor(weadata.currently.temperature),'˚</p>',
+						'<p class="m-temp hide c-temp">',formatCelsius(weadata.currently.temperature),'˚</p>',
 						'<table class="twoWea">',
 							'<tr>',
 								'<td class="today" style="width:25%">',formatTime(weadata.daily.data[0].time,weadata.offset).weekday,'</td>',
 								'<td class="y-day" style="width:25%">Today</td>',
-								'<td class="t-temp" style="width:25%">',Math.floor(weadata.daily.data[0].temperatureMax),'˚</td>',
-								'<td class="y-temp" style="width:25%">',Math.floor(weadata.daily.data[0].temperatureMin),'˚</td>',
+								'<td class="t-temp f-temp" style="width:25%">',Math.floor(weadata.daily.data[0].temperatureMax),'˚</td>',
+								'<td class="t-temp hide c-temp" style="width:25%">',formatCelsius(weadata.daily.data[0].temperatureMax),'˚</td>',
+								'<td class="y-temp f-temp" style="width:25%">',Math.floor(weadata.daily.data[0].temperatureMin),'˚</td>',
+								'<td class="y-temp hide c-temp" style="width:25%">',formatCelsius(weadata.daily.data[0].temperatureMin),'˚</td>',
 							'</tr>',
 						'</table>',
 					'</div>'
@@ -93,7 +99,8 @@ $(document).ready(function(){
 								'<li>', 
 									'<p>',formatTime(weadata.hourly.data[i].time,weadata.offset).hourAMPM,'</p>',
 									'<p><img src="icons/',weadata.hourly.data[i].icon,'.png"></p>',
-									'<p>',Math.floor(weadata.hourly.data[i].temperature),'˚</p>',
+									// '<p class="f-temp">',Math.floor(weadata.hourly.data[i].temperature),'˚</p>',
+									'<p><span class="f-temp">',Math.floor(weadata.hourly.data[i].temperature),'˚</span><span class="hide c-temp">',formatCelsius(weadata.hourly.data[i].temperature),'˚</span></p>',
 								'</li>'
 							].join(''));
 					$timeWeaUl.append($hourlyList);
@@ -106,11 +113,10 @@ $(document).ready(function(){
 		var $dailyForecastList=$("<ul class='forecast-list'></ul>");
 		$.each(weadata.daily.data,function(key,value){
 			var day = formatTime(value.time,weadata.offset).weekday;
-			var dayIcon = value.icon;
-			var tempMax = Math.floor(value.temperatureMax);
-			var tempMin = Math.floor(value.temperatureMin);
-			var $dayItem = $("<li><ul><li>"+day+"</li><li><img src='icons/"+dayIcon+".png'/></li><li>"+tempMax+"˚</li><li>"+tempMin+"˚</li></ul></li>");
+			var $dayItem = $("<li class='f-temp'><ul><li>"+day+"</li><li><img src='icons/"+value.icon+".png'/></li><li>"+Math.floor(value.temperatureMax)+"˚</li><li>"+Math.floor(value.temperatureMin)+"˚</li></ul></li>");
+			var $dayItemCtemp = $("<li class='hide c-temp'><ul><li>"+day+"</li><li><img src='icons/"+value.icon+".png'/></li><li>"+formatCelsius(value.temperatureMax)+"˚</li><li>"+formatCelsius(value.temperatureMin)+"˚</li></ul></li>");
 			$dailyForecastList.append($dayItem);
+			$dailyForecastList.append($dayItemCtemp);
 		});
 
 		$dailyForecast.append($dailyForecastList);
@@ -151,9 +157,13 @@ $(document).ready(function(){
 							  '</ul>', 
 						 '</li>',
 						 '<li>', 
-								'<ul>',
+								'<ul class="f-temp">',
 									'<li>Feels like:</li>',
 									'<li>',Math.floor(weadata.currently.apparentTemperature),'˚</li>',
+							  '</ul>',
+							  '<ul class="hide c-temp">',
+									'<li>Feels like:</li>',
+									'<li>',formatCelsius(weadata.currently.apparentTemperature),'˚</li>',
 							  '</ul>', 
 						 '</li>',
 						 '<li>', 
@@ -181,7 +191,7 @@ $(document).ready(function(){
 		var $footer=$([
 					'<footer class="daytimeFooter">',
 						'<ul class="navg">',
-							// '<li class="cfButt"><span class="degC trans">&nbsp ˚C</span>/<span class="degF">˚F</span></li>',
+							'<li class="cfButt"><span class="degC trans">&nbsp ˚C</span>/<span class="degF">˚F</span></li>',
 							'<li class="left-page">◀</li>',
 							'<li class="dot-left">●</li>',
 							'<li class="dot-right">●</li>',
@@ -206,14 +216,15 @@ $(document).ready(function(){
 							'<p class="time">',formatTime(weadata.currently.time,weadata.offset).formatAMPM,'</p>',
 							'<p class="location">',name,'</p>',
 						'</div>',
-						'<div class="temp">',Math.floor(weadata.currently.temperature),'˚</div>',
+						// '<div class="temp f-temp">',Math.floor(weadata.currently.temperature),'˚</div>',
+						'<div class="temp"><span class="f-temp">',Math.floor(weadata.currently.temperature),'˚</span><span class="hide c-temp">',formatCelsius(weadata.currently.temperature),'˚</span></div>',
 					'</div>',
 			'</a>'].join(''));
 		// $citylistItem.data("id",pagenum);
 		$('.page1').append($citylistItem);
 		// alert("add success");
 	}
-	function showCityLists(locationObj){
+	function showSearchCityLists(locationObj){
 		$.each(locationObj,function(key,value){
 			// console.log(value.displayName);
 			var $pList=$("<p>"+value.formatted_address+"</p>");
@@ -233,7 +244,7 @@ $(document).ready(function(){
 			url: locationUrl+"?query="+inputValue,
 			dataType: "jsonp",
 			success: function(locationJson) {
-				showCityLists(locationJson);
+				showSearchCityLists(locationJson);
 			},
 			error: function(jqXHR){     
 				alert("Error Happend");  
@@ -292,6 +303,19 @@ $(document).ready(function(){
 		});
 	});
 
+	$('.cfButt').on('click',function(){
+		$('.degF').toggleClass('trans');
+		var setF = $('.degC').toggleClass('trans').hasClass('trans');
+		if(setF){
+		  // console.log('change to F temp');
+		  $(".f-temp").show();
+		  $(".c-temp").hide();
+		}else{
+			// console.log('change to C temp');
+			$(".f-temp").hide();
+		  $(".c-temp").show();
+		  }
+	});
 	
 	setInterval(function(){
 		$('.page1').children('a').each(function () {

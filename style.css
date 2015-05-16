@@ -109,7 +109,7 @@ li{
 	position:relative;
 	top: 22px;	
 }
-.twoWea td:nth-child(2n){
+.y-day,.y-temp{
 	color: #b6c0c9;
 }
 .twoWea{
