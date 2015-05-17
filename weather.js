@@ -52,7 +52,6 @@ $(document).ready(function(){
 				success: function(weajson) {
 					appendPage(weajson,pagenum,name);
 					addCityToCityList(weajson,pagenum,name);
-					toggleCF();
 					if(typeof(Storage) !== "undefined") {
 						storeArray.push({
 						weajson:weajson,
