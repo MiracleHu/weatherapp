@@ -2,8 +2,8 @@ $(document).ready(function(){
 	init();
 	var storeArray;
 	function init(){
-		if(sessionStorage.initArray!== undefined){
-			storeArray=JSON.parse(sessionStorage.initArray);
+		if(localStorage.initArray!== undefined){
+			storeArray=JSON.parse(localStorage.initArray);
 			for (var i=0;i<storeArray.length;i++){
 				appendPage(storeArray[i].weajson,storeArray[i].pagenum,storeArray[i].name);
 				addCityToCityList(storeArray[i].weajson,storeArray[i].pagenum,storeArray[i].name);
@@ -58,7 +58,7 @@ $(document).ready(function(){
 						pagenum:pagenum,
 						name:name
 						});
-						sessionStorage.initArray=JSON.stringify(storeArray);
+						localStorage.initArray=JSON.stringify(storeArray);
 					}
 				},
 				error: function(jqXHR){     
@@ -332,13 +332,13 @@ $(document).ready(function(){
 	},1000);
 
 	$('#edit').on('click',function(){
-		$('.removeCity').show();
+		$('.removeCity').show('fast');
 		$(this).hide();
 		$('#editdone').show();
 	});
 
 	$('#editdone').on('click',function(){
-		$('.removeCity').hide();
+		$('.removeCity').hide('fast');
 		$(this).hide();
 		$('#edit').show();
 	});
@@ -353,7 +353,7 @@ $(document).ready(function(){
 	    }
 		}
 		if(typeof(Storage) !== "undefined") {
-			sessionStorage.initArray=JSON.stringify(storeArray);
+			localStorage.initArray=JSON.stringify(storeArray);
 		}
 		$(this).parent().parent().remove();
 	});
