@@ -34,6 +34,7 @@ li{
 	font-size: 16px;
 }
 .page1{
+	z-index: 100;
 	height:667px;
 	position:relative;
 }
@@ -69,16 +70,6 @@ li{
 	position: absolute;
 	right: 16px;
 
-}
-#addCity{
-	color:#ccc;
-	background: none;
-	border:none;
-	outline: none;
-	font-size: 40px;
-	position: absolute;
-	bottom: 0;
-	right:20px;
 }
 .page2{
 	background: linear-gradient(#718291, #617588);
@@ -286,6 +277,14 @@ footer{
 /*search parts are below*/
 #addCity{
 	cursor:pointer;
+	color:#ccc;
+	background: none;
+	border:none;
+	outline: none;
+	font-size: 40px;
+	position: absolute;
+	bottom: 0;
+	right:20px;
 }
 .locContainer h6{
 	text-align: center;
@@ -319,8 +318,23 @@ input{
 	cursor: pointer;
 }
 
-
-
+#edit,#editdone{
+	cursor:pointer;
+	color:#ccc;
+	background: none;
+	border:none;
+	outline: none;
+	font-size: 17px;
+	position: absolute;
+	bottom: 10px;
+	left:20px;
+}
+.removeCity{
+	color:red;
+	font-size: 35px;
+	padding-left: 10px;
+	z-index: 1000;
+}
 
 
 
