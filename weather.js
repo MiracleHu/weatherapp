@@ -211,6 +211,7 @@ $(document).ready(function(){
 		var $citylistItem=$([
 			'<a href="#" data-offset=',weadata.offset,' data-id=',pagenum,' class="list',pagenum,'">',
 					'<div class="cityList dayTime">',
+						'<div class="removeCity" style="display:none">&#x2296</div>',
 						'<div class="left-side">',
 							'<p class="time">',formatTime(weadata.currently.time,weadata.offset).formatAMPM,'</p>',
 							'<p class="location">',name,'</p>',
@@ -275,7 +276,6 @@ $(document).ready(function(){
 			creatPages($(this).data("lat"),$(this).data("lng"),$(this).data("displayName"),$(this).data("id"));
 			samecity=false;
 		}
-		
 		$('.page1').show();
 		$('.locContainer').hide();
 		$(".findCityList").empty();
@@ -296,21 +296,30 @@ $(document).ready(function(){
 		// console.log(redirectId);
 		$('.pages').hide();
 		$(redirectId).show();
+		// toggleCF();
 		$(redirectId).on('click','.mainPage',function(){
 			$('.pages').hide();
 			$('.page1').show();
 		});
 	});
 
-	$('.cfButt').on('click',function(){
+	// function toggleCF(){
+	// 	$('footer').on('click','.cfButt',function(){
+	// 		console.log('click success');
+	// 		$('.degF').toggleClass('trans');
+	// 		$('.degC').toggleClass('trans')
+	// 	});
+	// }
+	$('footer').on('click','.cfButt',function(){
+		console.log('click success');
 		$('.degF').toggleClass('trans');
 		var setF = $('.degC').toggleClass('trans').hasClass('trans');
 		if(setF){
-		  // console.log('change to F temp');
+		  console.log('change to F temp');
 		  $(".f-temp").show();
 		  $(".c-temp").hide();
 		}else{
-			// console.log('change to C temp');
+			console.log('change to C temp');
 			$(".f-temp").hide();
 		  $(".c-temp").show();
 		  }
@@ -322,7 +331,32 @@ $(document).ready(function(){
 		});
 	},1000);
 
+	$('#edit').on('click',function(){
+		$('.removeCity').show();
+		$(this).hide();
+		$('#editdone').show();
+	});
+
+	$('#editdone').on('click',function(){
+		$('.removeCity').hide();
+		$(this).hide();
+		$('#edit').show();
+	});
+
+	$('.page1').on('click','.removeCity',function(event){
+		event.stopPropagation();
+		console.log('removeCity OK');
+		var number = $(this).parent().parent().data('id');
+		for(var i = storeArray.length - 1; i >= 0; i--) {
+	    if(storeArray[i].pagenum === number) {
+	       storeArray.splice(i, 1);
+	    }
+		}
+		if(typeof(Storage) !== "undefined") {
+			sessionStorage.initArray=JSON.stringify(storeArray);
+		}
+		$(this).parent().parent().remove();
+	});
+
 });
-
-
 
