@@ -48,7 +48,7 @@ li{
 .dayTime{
 	background: linear-gradient(#718291, #617588);
 }
-.nightTime{
+.nightTime,footer.nightTime,.nightTime .cityList {
 	background: linear-gradient(#0b131e, #232931);
 }
 .left-side{

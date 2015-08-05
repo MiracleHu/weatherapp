@@ -69,7 +69,7 @@ $(document).ready(function(){
 
 	function appendPage(weadata,pagenum,name){
 		var $page = $("<div class='page"+pagenum+" pages hide dayTime'></div>");
-		formatTime(weadata.currently.time,weadata.offset).fullHour>19 ? $page.addClass("nightTime"):$page.removeClass("nightTime");
+		formatTime(weadata.currently.time,weadata.offset).fullHour>19||formatTime(weadata.currently.time,weadata.offset).fullHour<7 ? $page.addClass("nightTime"):$page.removeClass("nightTime");
 		var $mainInfo=$([
 					'<div class="mainInfo">',
 						'<p class="m-city">',name,'</p>',
@@ -199,6 +199,7 @@ $(document).ready(function(){
 						'</ul>',
 					'</footer>'
 				].join(''));
+		formatTime(weadata.currently.time,weadata.offset).fullHour>19||formatTime(weadata.currently.time,weadata.offset).fullHour<7 ? $footer.addClass("nightTime"):$footer.removeClass("nightTime");
 		$page.append($todaySumm);
 		$page.append($weaDetailUl);
 		$page.append($footer);
@@ -221,6 +222,7 @@ $(document).ready(function(){
 					'</div>',
 			'</a>'].join(''));
 		// $citylistItem.data("id",pagenum);
+		formatTime(weadata.currently.time,weadata.offset).fullHour>19||formatTime(weadata.currently.time,weadata.offset).fullHour<7 ? $citylistItem.addClass("nightTime"):$citylistItem.removeClass("nightTime");
 		$('.page1').append($citylistItem);
 		// alert("add success");
 	}
