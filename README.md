@@ -12,10 +12,10 @@ https://youtu.be/F6p8AAMRltw
 - Click '+' button to search and add a city
 - Click 'Edit' to delete city in current city list
 - Click a city item to view the weather detail of it
-![image](https://github.com/lessica082/weather-mock/blob/master/demo-img/home.jpg)
+![image](https://github.com/MiracleHu/weatherapp/blob/master/demo-imgs/home.jpg)
 
 - Click '☰' to return home page
 - Scroll page to access more information
 - Click 'C°/F°' to convert temperture between Celsius and Fahrenheit
-![image](https://github.com/lessica082/weather-mock/blob/master/demo-img/detail.jpg)
+![image](https://github.com/MiracleHu/weatherapp/blob/master/demo-imgs/detail.jpg)
 
