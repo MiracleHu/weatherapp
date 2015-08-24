@@ -1,6 +1,6 @@
 # iOS Weather Mock App
 A web app using HTML,CSS to mock up iOS weather app UI with client side actived by plain javascipt and jQuery. <br>
-<h3>Demo Vedio:</h3>
+<h3>Demo Video:</h3>
 https://youtu.be/F6p8AAMRltw
 
 <h3>Installtion</h3>
